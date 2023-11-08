@@ -1,0 +1,17 @@
+.navlink {
+  color: red;
+  margin: 10px;
+  // padding: 10px;
+  font-family: "Advent pro";
+  background-color: cyan;
+  font-size: 20px;
+  &.active {
+    color: green;
+  }
+}
+
+.navlink-wrapper {
+  margin: 10px;
+  padding: 10px;
+  background-color: cyan;
+}
