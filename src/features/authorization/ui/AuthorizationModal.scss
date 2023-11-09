@@ -4,3 +4,38 @@
   justify-content: space-between;
   align-items: center;
 }
+
+header.auth-header {
+  display: grid;
+  padding: 5px;
+  grid-template-columns: 145px 1fr;
+  grid-template-rows: 70px 70px;
+
+  img {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+  b {
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+    padding: 5px 0;
+    grid-column: 2;
+    grid-row: 1;
+    // background-color: yellow;
+    margin: 0;
+    border-bottom: 1px solid black;
+    font-size: 17px;
+  }
+  p {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    padding: 5px 0;
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 17px;
+    // background-color: red;
+    margin: 0;
+  }
+}

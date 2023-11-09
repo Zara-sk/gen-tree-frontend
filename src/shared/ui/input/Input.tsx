@@ -2,7 +2,7 @@ import React, { FC, RefObject, ReactNode } from "react";
 
 import cn from "classnames";
 
-import { IconProps } from "@shared/ui/icons";
+import { Cross } from "@shared/ui/icons";
 
 import "./Input.scss";
 
@@ -33,8 +33,13 @@ export const Input: FC<InputProps> = ({
   error,
   innerRef,
 }) => {
+  const clearBtnClickHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    clear && clear();
+  };
+  console.log("disabled:", disabled);
   return (
-    <label className={cn("input-wrapper", { error })}>
+    <label className={cn("input-wrapper", { error: error && value })}>
       <span className="input-icon-wrapper">{icon}</span>
       <input
         className="input-input"
@@ -48,8 +53,8 @@ export const Input: FC<InputProps> = ({
         ref={innerRef}
       />
       {clear && (
-        <button className="input-clear-btn" onClick={clear}>
-          X
+        <button className="input-clear-btn" onClick={clearBtnClickHandle}>
+          <Cross fill="currentColor" />
         </button>
       )}
     </label>

@@ -18,7 +18,7 @@
   }
 
   &:focus-within {
-    border: 2px solid #54b9cd !important;
+    border: 2px solid #3378c6 !important;
   }
 }
 
@@ -59,4 +59,21 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
+  opacity: 0;
+  transition: 0.2s;
+  color: black;
+
+  &:hover,
+  &:focus {
+    color: #3378c6;
+  }
+
+  .input-wrapper:hover &,
+  .input-wrapper:focus-within & {
+    opacity: 1;
+  }
+
+  .input-wrapper .input-input:disabled + & {
+    display: none;
+  }
 }
