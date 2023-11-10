@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -16,11 +16,17 @@ const authSchema = yup.object().shape({
   password: yup.string().required("Введите пароль"),
 });
 
-export const AuthorizationModal = () => {
+type AuthorizationModalProps = {
+  openRegModal: () => void;
+};
+
+export const AuthorizationModal: FC<AuthorizationModalProps> = ({
+  openRegModal,
+}) => {
   const modalOpenStatus = isActive();
   const [emailRef, setEmailFocus] = useFocus<HTMLInputElement>();
 
-  const [formError, setFormError] = useState<string>("");
+  const [apiError, setApiError] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -40,13 +46,17 @@ export const AuthorizationModal = () => {
   });
 
   useEffect(() => {
-    console.log(modalOpenStatus);
-    setEmailFocus();
+    modalOpenStatus && setEmailFocus();
   }, [modalOpenStatus]);
 
   const handleClose = () => {
     closeModal();
     formik.resetForm();
+  };
+
+  const changeToRegModal = () => {
+    handleClose();
+    openRegModal();
   };
 
   return (
@@ -72,6 +82,9 @@ export const AuthorizationModal = () => {
           innerRef={emailRef}
           clear={formik.setFieldValue.bind(this, "email", "")}
         />
+        {/* <span data-for="email" className="field-error">
+          {formik.errors.email}
+        </span> */}
         <Input
           id="password"
           name="password"
@@ -84,6 +97,9 @@ export const AuthorizationModal = () => {
           error={!!formik.errors.password}
           clear={formik.setFieldValue.bind(this, "password", "")}
         />
+        {/* <span data-for="email" className="field-error">
+          {formik.errors.password}
+        </span> */}
         <br />
         <Button
           disabled={
@@ -96,6 +112,10 @@ export const AuthorizationModal = () => {
         >
           Войти
         </Button>
+        <br />
+        <button onClick={changeToRegModal} className="help-reg">
+          Нет аккаунта? Зарегистрируйтесь!
+        </button>
       </form>
     </Modal>
   );

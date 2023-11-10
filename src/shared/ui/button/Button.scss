@@ -24,11 +24,11 @@ button.button {
 
   &:disabled {
     border: 2px solid #c5bebe;
+    color: #c5bebe;
     &:hover,
     &:focus {
       background-color: white;
       cursor: default;
-      color: #c5bebe;
     }
   }
 }

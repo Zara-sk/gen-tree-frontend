@@ -76,4 +76,8 @@
   .input-wrapper .input-input:disabled + & {
     display: none;
   }
+
+  &.empty {
+    display: none;
+  }
 }

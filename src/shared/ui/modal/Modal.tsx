@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useRef } from "react";
 
 import FocusLock from "react-focus-lock";
 
 import "./Modal.scss";
+import { Cross } from "../icons";
 
 type ModalProps = {
   isActive: boolean;
@@ -11,29 +12,48 @@ type ModalProps = {
 };
 
 export const Modal: FC<ModalProps> = ({ isActive, closeModal, children }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const wrapperClickHandler = (e: MouseEvent) => {
+      console.log(e);
+      const { target } = e;
+
+      if (target instanceof Node && modalRef.current == target) {
+        closeModal();
+      }
+    };
     const escapeHandler = (e: KeyboardEvent) => {
       if (isActive && e.key == "Escape") {
         closeModal();
       }
     };
+    document.addEventListener("click", wrapperClickHandler);
     document.addEventListener("keydown", escapeHandler);
 
     return () => {
+      document.removeEventListener("click", wrapperClickHandler);
       document.removeEventListener("keydown", escapeHandler);
     };
   }, [isActive]);
 
   return (
-    <div className={isActive ? "modal active" : "modal"} onClick={closeModal}>
-      <FocusLock>
-        <div
-          className={isActive ? "modal-content active" : "modal-content"}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {children}
-        </div>
-      </FocusLock>
+    <div ref={modalRef} className={isActive ? "modal active" : "modal"}>
+      {isActive && (
+        <FocusLock>
+          <div
+            className={isActive ? "modal-content active" : "modal-content"}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <>
+              <button className="close-modal-btn" onClick={closeModal}>
+                <Cross fill="currentColor" />
+              </button>
+              {children}
+            </>
+          </div>
+        </FocusLock>
+      )}
     </div>
   );
 };

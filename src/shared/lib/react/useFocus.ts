@@ -14,8 +14,6 @@ interface useFocusReturnType<T> extends Array<RefObject<T> | (() => void)> {
 export const useFocus = <T extends focusSupported>(): useFocusReturnType<T> => {
   const htmlRef = useRef<T>(null);
   const setFocus = () => {
-    console.log("focus!");
-    console.log(htmlRef.current);
     htmlRef.current && htmlRef.current.focus();
   };
 

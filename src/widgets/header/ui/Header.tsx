@@ -13,28 +13,36 @@ export const Header: FC = () => {
 
   return (
     <header className="main_header">
-      <NavLink path="/">Logo</NavLink>
-      <nav>
-        <NavLink path="/family">
-          <AvoidGuard condition={!authStatus} action={openAuthModal}>
-            Семья
-          </AvoidGuard>
+      <div className="container">
+        <NavLink path="/">
+          <img src="./gen_tree_cropped.png" width={80} height={80}></img>
         </NavLink>
-        <NavLink path="/family/tree">
-          <AvoidGuard condition={!authStatus} action={openAuthModal}>
-            Древо
-          </AvoidGuard>
-        </NavLink>
-        <NavLink path="/family/albums">
-          <AvoidGuard condition={!authStatus} action={openAuthModal}>
-            Альбомы
-          </AvoidGuard>
-        </NavLink>
-      </nav>
-      {/* <NavLink path="/login">Войти</NavLink> */}
-      <button onClick={openRegModal}>reg</button>
-      <RegistrationModal />
-      <AuthorizationModal />
+        <nav>
+          <NavLink path="/family">
+            <AvoidGuard condition={!authStatus} action={openAuthModal}>
+              Семья
+            </AvoidGuard>
+          </NavLink>
+          <NavLink path="/family/tree">
+            <AvoidGuard condition={!authStatus} action={openAuthModal}>
+              Древо
+            </AvoidGuard>
+          </NavLink>
+          <NavLink path="/family/albums">
+            <AvoidGuard condition={!authStatus} action={openAuthModal}>
+              Альбомы
+            </AvoidGuard>
+          </NavLink>
+        </nav>
+        {/* <NavLink path="/login">Войти</NavLink> */}
+        {authStatus ? (
+          <NavLink path="/account">Аккаунт</NavLink>
+        ) : (
+          <button onClick={openRegModal}>reg</button>
+        )}
+      </div>
+      <AuthorizationModal openRegModal={openRegModal} />
+      <RegistrationModal openAuthModal={openAuthModal} />
     </header>
   );
 };

@@ -37,9 +37,8 @@ export const Input: FC<InputProps> = ({
     e.preventDefault();
     clear && clear();
   };
-  console.log("disabled:", disabled);
   return (
-    <label className={cn("input-wrapper", { error: error && value })}>
+    <label className={cn("input-wrapper", name, { error: error && !!value })}>
       <span className="input-icon-wrapper">{icon}</span>
       <input
         className="input-input"
@@ -53,7 +52,10 @@ export const Input: FC<InputProps> = ({
         ref={innerRef}
       />
       {clear && (
-        <button className="input-clear-btn" onClick={clearBtnClickHandle}>
+        <button
+          className={cn("input-clear-btn", { empty: !value })}
+          onClick={clearBtnClickHandle}
+        >
           <Cross fill="currentColor" />
         </button>
       )}
