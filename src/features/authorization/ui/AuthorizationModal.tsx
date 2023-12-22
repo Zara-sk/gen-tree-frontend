@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+
+import { isMobile } from "react-device-detect";
 
 import { isActive, closeModal } from "../model/useAuthorizationModal";
 
@@ -10,6 +12,7 @@ import { PasswordIcon, EmailIcon } from "@shared/ui/icons";
 import { useFocus } from "@shared/lib/react";
 
 import "./AuthorizationModal.scss";
+import { setUser } from "@entities/session";
 
 const authSchema = yup.object().shape({
   email: yup.string().email("Некорректный Email").required("Укажите Email"),
@@ -26,7 +29,7 @@ export const AuthorizationModal: FC<AuthorizationModalProps> = ({
   const modalOpenStatus = isActive();
   const [emailRef, setEmailFocus] = useFocus<HTMLInputElement>();
 
-  const [apiError, setApiError] = useState<string>("");
+  // const [apiError, setApiError] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -39,14 +42,22 @@ export const AuthorizationModal: FC<AuthorizationModalProps> = ({
         setTimeout(() => {
           const { email, password } = values;
           console.log(`submit auth form: email:${email} password:${password}`);
+          if (email == "zara.forgest@gmail.com" && password == "123") {
+            setUser({
+              id: 0,
+              family_id: 0,
+              accessToken: "M0CK",
+            });
+            closeModal();
+          }
           resetForm();
-        }, 2500);
+        }, 800);
       });
     },
   });
 
   useEffect(() => {
-    modalOpenStatus && setEmailFocus();
+    modalOpenStatus && !isMobile && setEmailFocus();
   }, [modalOpenStatus]);
 
   const handleClose = () => {
@@ -61,14 +72,13 @@ export const AuthorizationModal: FC<AuthorizationModalProps> = ({
 
   return (
     <Modal isActive={modalOpenStatus} closeModal={handleClose}>
-      <header className="auth-header">
-        <img src="./gen_tree_cropped.png" width={130} />
-        <b>Genealogical Tree</b>
-        <p>Авторизация</p>
-      </header>
-      <br />
-      <br />
+      <img className="background" src="./lowpoly_gen_tree.jpg" />
+      <img className="bg-shadow" src="./lowpoly_gen_tree.jpg" />
+      <div className="bg-linear"></div>
       <form className="auth-form" onSubmit={formik.handleSubmit}>
+        <header className="auth-header">
+          <p>Авторизация</p>
+        </header>
         <Input
           id="email"
           name="email"

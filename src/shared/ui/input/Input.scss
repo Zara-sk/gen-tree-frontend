@@ -1,7 +1,7 @@
 .input-wrapper {
   margin: 5px;
   padding: 5px 10px;
-  width: 300px;
+  max-width: 300px;
   height: 35px;
   border-radius: 15px;
   border: 2px solid #c5bebe;
@@ -80,4 +80,8 @@
   &.empty {
     display: none;
   }
+}
+
+.no-focus-clear {
+  display: inline;
 }

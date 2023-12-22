@@ -1,4 +1,4 @@
-import React, { FC, RefObject, ReactNode } from "react";
+import React, { FC, RefObject } from "react";
 
 import cn from "classnames";
 
@@ -52,12 +52,12 @@ export const Input: FC<InputProps> = ({
         ref={innerRef}
       />
       {clear && (
-        <button
+        <span
           className={cn("input-clear-btn", { empty: !value })}
           onClick={clearBtnClickHandle}
         >
           <Cross fill="currentColor" />
-        </button>
+        </span>
       )}
     </label>
   );

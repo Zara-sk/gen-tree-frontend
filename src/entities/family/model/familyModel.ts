@@ -15,6 +15,7 @@ const createFamilyStore: StateCreator<
   [],
   FamilyState
 > = (set) => ({
+  name: "",
   tree: null,
   setTree: (tree) => {
     set({ tree });

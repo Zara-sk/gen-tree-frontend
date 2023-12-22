@@ -2,12 +2,12 @@
   width: 100%;
   display: block;
   box-sizing: border-box;
-  background-color: white;
-  box-shadow: 0px 5px 8px -2px #cfd5d899;
+  background-color: #30537b;
+  // box-shadow: 0px 5px 8px -2px #cfd5d899;
 }
 
 header .container {
-  height: 100px;
+  height: 100%;
   width: 100%;
   max-width: 1100px;
   display: flex;
@@ -15,4 +15,91 @@ header .container {
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  overflow: hidden;
+}
+
+header .container.mobile {
+  opacity: 0;
+  transform: translate(0, -150%);
+  height: auto;
+  position: absolute;
+  background-color: #30537b;
+  // color: green;
+  width: 100%;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transition: 0.3s ease;
+  &.active {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  nav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .navlink {
+      span {
+        display: block;
+        width: 100vw;
+        height: 100%;
+        padding: 10px 10px;
+        height: 30px;
+      }
+      margin: 0;
+      height: 50px;
+      text-align: center;
+      color: #eee;
+      z-index: 10;
+      &:hover,
+      &focus {
+        background-color: #406ea2;
+      }
+    }
+  }
+}
+
+header.mobile {
+  height: 40px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+
+  #burger {
+    height: 54%;
+    margin-right: 0.4em;
+    width: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    cursor: pointer;
+    .burger-line {
+      width: 2em;
+      height: 0.2em;
+      border-radius: 0.1em;
+      background-color: #eee;
+      transition: ease-out 0.3s;
+    }
+
+    &.active {
+      .burger-line:nth-child(1) {
+        transform: rotate(45deg) translate(0.4em, 0.4em);
+      }
+      .burger-line:nth-child(2) {
+        transform: scaleX(0);
+      }
+      .burger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(0.4em, -0.4em);
+      }
+    }
+  }
 }

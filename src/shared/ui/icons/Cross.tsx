@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 import type { IconProps } from "./icon.types";
 
@@ -11,9 +11,9 @@ export const Cross: FC<IconProps> = ({
 }) => {
   return (
     <svg
-      width={size || width || 24}
-      height={size || height || 24}
-      viewBox="0 0 24 24"
+      width={size || width || "24px"}
+      height={size || height || "24px"}
+      viewBox="0 0 20 20"
       {...props}
     >
       <g fill={fill}>

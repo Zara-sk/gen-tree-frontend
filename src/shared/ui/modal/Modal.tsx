@@ -16,7 +16,6 @@ export const Modal: FC<ModalProps> = ({ isActive, closeModal, children }) => {
 
   useEffect(() => {
     const wrapperClickHandler = (e: MouseEvent) => {
-      console.log(e);
       const { target } = e;
 
       if (target instanceof Node && modalRef.current == target) {

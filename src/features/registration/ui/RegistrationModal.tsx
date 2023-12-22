@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+
+import { isMobile } from "react-device-detect";
 
 import { isActive, closeModal } from "../model/useRegistrationModal";
 
@@ -9,16 +11,18 @@ import { Input, Modal, Button } from "@shared/ui";
 import { PasswordIcon, EmailIcon } from "@shared/ui/icons";
 import { useFocus } from "@shared/lib/react";
 
+import "./RegistrationModal.scss";
+
 const authSchema = yup.object().shape({
   email: yup.string().email("Некорректный Email").required("Укажите Email"),
   password: yup
     .string()
     .required("Введите пароль")
-    .min(10, "Минимальная длинна пароля - 8 символов"),
+    .min(2, "Минимальная длинна пароля - 8 символов"),
   confirmPassword: yup
     .string()
     .required("Подтвердите пароль")
-    .min(10, "Минимальная длинна пароля - 8 символов")
+    .min(2, "Минимальная длинна пароля - 8 символов")
     .oneOf([yup.ref("password")], "Пароли не совпадают"),
 });
 
@@ -32,7 +36,7 @@ export const RegistrationModal: FC<RegistrationModalProps> = ({
   const modalOpenStatus = isActive();
   const [emailRef, setEmailFocus] = useFocus<HTMLInputElement>();
 
-  const [apiError, setApiError] = useState<string>("");
+  // const [apiError, setApiError] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -42,18 +46,20 @@ export const RegistrationModal: FC<RegistrationModalProps> = ({
     },
     validationSchema: authSchema,
     onSubmit: (values, { resetForm }) => {
-      return new Promise(() => {
+      return new Promise(async () => {
         setTimeout(() => {
           const { email, password, confirmPassword } = values;
-          console.log(`submit reg form: email:${email} password:${password}`);
+          console.log(
+            `submit reg form: email:${email} password:${password} password:${confirmPassword}`
+          );
           resetForm();
-        }, 2500);
+        }, 800);
       });
     },
   });
 
   useEffect(() => {
-    modalOpenStatus && setEmailFocus();
+    modalOpenStatus && !isMobile && setEmailFocus();
   }, [modalOpenStatus]);
 
   const handleClose = () => {
@@ -68,14 +74,13 @@ export const RegistrationModal: FC<RegistrationModalProps> = ({
 
   return (
     <Modal isActive={modalOpenStatus} closeModal={handleClose}>
-      <header className="auth-header">
-        <img src="./gen_tree_cropped.png" width={130} />
-        <b>Genealogical Tree</b>
-        <p>Регистрация</p>
-      </header>
-      <br />
-      <br />
-      <form className="auth-form" onSubmit={formik.handleSubmit}>
+      <img className="background" src="./lowpoly_gen_tree.jpg" />
+      <img className="bg-shadow" src="./lowpoly_gen_tree.jpg" />
+      <div className="bg-linear"></div>
+      <form className="reg-form" onSubmit={formik.handleSubmit}>
+        <header className="reg-header">
+          <p>Регистрация</p>
+        </header>
         <Input
           id="email"
           name="email"
@@ -104,9 +109,9 @@ export const RegistrationModal: FC<RegistrationModalProps> = ({
         <Input
           id="confirmPassword"
           name="confirmPassword"
-          type="confirmPassword"
+          type="password"
           value={formik.values.confirmPassword}
-          placeholder="Подтвердите ароль"
+          placeholder="Подтвердите пароль"
           icon={<PasswordIcon fill="currentColor" />}
           disabled={formik.isSubmitting}
           onChange={formik.handleChange}
@@ -118,12 +123,13 @@ export const RegistrationModal: FC<RegistrationModalProps> = ({
           disabled={
             !!formik.errors.email ||
             !!formik.errors.password ||
+            !!formik.errors.confirmPassword ||
             !formik.values.email ||
             formik.isSubmitting
           }
           type="submit"
         >
-          Войти
+          Зарегистрироваться
         </Button>
         <br />
         <button onClick={changeToAuthModal} className="help-reg">
